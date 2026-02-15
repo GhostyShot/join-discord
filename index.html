@@ -6,8 +6,7 @@
         :root {
             --discord: #5865F2;
             --neon-green: #00ff88;
-            --neon-blue: #00d2ff;
-            --glow-power: 0 0 50px 10px rgba(0, 210, 255, 0.7);
+            --glass-bg: rgba(10, 11, 18, 0.85);
         }
 
         body {
@@ -18,160 +17,173 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 300px; /* Passend zu deiner TikTok-Einstellung */
             width: 1000px;
+            height: 300px;
         }
 
-        /* Container der den Glow hält, damit nichts abgeschnitten wird */
-        .wrapper {
+        /* Haupt-Panel ohne harten Rand */
+        .glass-panel {
             position: relative;
-            width: 900px; /* Kleiner als 1000px, damit der Glow Platz hat */
-            height: 220px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Der animierte Ultra-Glow Rahmen */
-        .banner-border {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--discord), var(--neon-blue), var(--neon-green), var(--discord));
-            background-size: 300% 300%;
-            animation: moveBorder 3s linear infinite;
-            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
-            box-shadow: var(--glow-power); /* Extremer Außen-Glow */
-        }
-
-        @keyframes moveBorder {
-            0% { background-position: 0% 50%; filter: hue-rotate(0deg); }
-            100% { background-position: 100% 50%; filter: hue-rotate(360deg); }
-        }
-
-        /* Das Carbon-Innere */
-        .banner-main {
-            position: relative;
-            width: calc(100% - 8px); /* Platz für den Rahmen */
-            height: calc(100% - 8px);
-            background: 
-                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
-                url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            background-size: auto, 150px; /* Carbon Textur vergrößert für mehr Effekt */
-            clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+            width: 900px;
+            height: 200px;
+            background: var(--glass-bg);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 60px;
             overflow: hidden;
-            z-index: 2;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
-        /* Extra Licht-Reflexe auf dem Carbon */
-        .carbon-shimmer {
+        /* Cooler Hintergrund-Effekt: Animierte Mesh-Lines */
+        .bg-effect {
             position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-            transform: skewX(-30deg);
-            animation: shimmer 4s infinite;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 210, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 210, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            mask-image: radial-gradient(circle, black, transparent 80%);
+            animation: moveGrid 10s linear infinite;
+            z-index: 1;
         }
 
-        @keyframes shimmer {
-            0% { left: -100%; }
-            30% { left: 150%; }
-            100% { left: 150%; }
+        @keyframes moveGrid {
+            from { background-position: 0 0; }
+            to { background-position: 30px 30px; }
         }
 
-        /* Linke Seite: Content */
-        .left-side { z-index: 5; }
+        /* Content Sektion */
+        .text-content {
+            z-index: 10;
+        }
 
         .headline {
             font-size: 3.5rem;
-            margin: 0;
             color: white;
             text-transform: uppercase;
-            letter-spacing: -2px;
-            text-shadow: 0 0 20px var(--discord);
+            line-height: 1;
+            margin: 0;
+            letter-spacing: -1px;
         }
 
-        .hype-tag {
+        .hype-text {
             color: var(--neon-green);
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             letter-spacing: 5px;
-            font-weight: 900;
-            margin-bottom: 5px;
-            text-shadow: 0 0 15px var(--neon-green);
+            margin-bottom: 10px;
         }
 
-        .online-box {
+        .live-badge {
             display: inline-flex;
             align-items: center;
-            gap: 15px;
-            margin-top: 10px;
-            padding: 10px 25px;
-            background: rgba(0,0,0,0.5);
-            border: 2px solid var(--neon-green);
-            box-shadow: inset 0 0 15px var(--neon-green);
+            gap: 12px;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.07);
+            padding: 8px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        .discord-icon {
-            width: 30px;
-            fill: white;
-            animation: bounce 2s infinite;
+        .online-dot {
+            width: 12px; height: 12px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--neon-green);
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        /* Rechte Seite: QR */
-        .qr-side {
-            z-index: 5;
+        /* QR Sektion */
+        .qr-section {
+            z-index: 10;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 10px;
         }
 
-        .qr-frame {
+        /* Target-Ecken um den QR Code */
+        .qr-target {
+            position: relative;
             background: white;
             padding: 10px;
-            border-radius: 5px;
-            border: 5px solid var(--neon-blue);
-            box-shadow: 0 0 30px var(--neon-blue);
-            position: relative;
+            border-radius: 10px;
         }
 
-        /* Animierter Scanner */
-        .qr-frame::after {
+        /* Die coolen Gamer-Ecken (Targeting Look) */
+        .qr-target::before, .qr-target::after {
             content: "";
             position: absolute;
-            left: 0; width: 100%; height: 4px;
-            background: var(--neon-blue);
-            box-shadow: 0 0 20px var(--neon-blue);
-            animation: scan 2s infinite ease-in-out;
+            width: 30px;
+            height: 30px;
+            border: 4px solid var(--discord);
         }
 
-        @keyframes scan {
-            0%, 100% { top: 0%; }
-            50% { top: 100%; }
+        /* Oben Links & Unten Rechts */
+        .qr-target::before {
+            top: -10px; left: -10px;
+            border-right: none; border-bottom: none;
+        }
+        .qr-target::after {
+            bottom: -10px; right: -10px;
+            border-left: none; border-top: none;
+        }
+
+        .qr-section img {
+            display: block;
+            width: 130px;
+            height: 130px;
+        }
+
+        .qr-text {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--discord);
         }
 
         @keyframes pulse {
-            50% { transform: scale(1.2); opacity: 0.6; }
+            50% { opacity: 0.4; transform: scale(1.2); }
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <div class="banner-border"></div>
+    <div class="glass-panel">
+        <div class="bg-effect"></div>
 
-        <div class="banner-main">
-            <div class="carbon-shimmer"></div>
+        <div class="text-content">
+            <div class="hype-text">GET THE HYPE</div>
+            <h1 class="headline">JOIN THE SQUAD</h1>
+            <div class="live-badge">
+                <div class="online-dot"></div>
+                <span id="memberCount" style="color: white; font-size: 1.5rem;">...</span>
+            </div>
+        </div>
 
-            <div class="left-side">
-                <div class="hype-tag">GENERATE THE HYPE</div>
-                <h1 class="headline">JOIN THE SQUAD</h1>
-                <div class="online-box">
-                    <svg class="discord-icon" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.71,32.65-1.82,56.6.48,80.1a105.73,105.73,
+        <div class="qr-section">
+            <div class="qr-target">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://discord.gg/GCdtRkHb6X" alt="QR Code">
+            </div>
+            <span class="qr-text">SCAN TO JOIN</span>
+        </div>
+    </div>
+
+    <script>
+        async function updateStats() {
+            try {
+                const res = await fetch("https://discord.com/api/guilds/1384998084307849367/widget.json");
+                const data = await res.json();
+                document.getElementById("memberCount").innerText = data.presence_count + " ONLINE";
+            } catch {
+                document.getElementById("memberCount").innerText = "JOIN NOW";
+            }
+        }
+        updateStats();
+        setInterval(updateStats, 30000);
+    </script>
+</body>
+</html>
